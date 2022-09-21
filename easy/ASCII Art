@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int l;
+    cin >> l; cin.ignore();
+    int h;
+    cin >> h; cin.ignore();
+    string t;
+    getline(cin, t);
+    transform(t.begin(), t.end(), t.begin(), :: toupper); // все буквы в строке переводим в верхний регистр
+    for (int i = 0; i < h; i++) {
+        string row;
+        getline(cin, row);
+        string answer;
+    for (char letter : t) { // итерация по строке
+      int position = static_cast <int> (letter - 'A'); // записываем в переменную номер буквы в алфавите
+      if (position < 0 || position > 25) { // если вышли за границу алфавита, то выводим знак вопроса
+        position = 26;
+      }
+      int start = position * l; // переменная нужна для того, чтобы узнать с какого символа выводить
+      answer += row.substr(start, l); //подстроку записываем в переменную и таким образом выводим нужную букву
+    }
+        cout << answer << endl;
+    }
+
+    // Write an answer using cout. DON'T FORGET THE "<< endl"
+    // To debug: cerr << "Debug messages..." << endl;
+
+    //cout << "answer" << endl;
+}
