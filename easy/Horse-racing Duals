@@ -1,0 +1,37 @@
+include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int n;
+    cin >> n; cin.ignore();
+    unsigned int array [n]; // объявляем фикс. массив длиной n. т.к. pi>0 то unsigned
+    for (int i = 0; i < n; i++) { //заполняем массив
+        int pi;
+        cin >> pi; cin.ignore();
+        array [i] = pi;
+    }
+    sort(array, array+n); // сортируем массив в порядке возрастания
+    unsigned int min = array[1] - array[0]; // изначальное значение минимальной разницы принимаем вот так
+
+    for (int i = 1; i < n; i++) // высчитываем разницу между всеми последующими участниками и кждую сравниваем с минимальной. 
+    {
+       unsigned int current = array[i+1]-array[i];
+        if (current < min)
+        min = current;
+    }
+        cout << min << endl; 
+    // Write an answer using cout. DON'T FORGET THE "<< endl"
+    // To debug: cerr << "Debug messages..." << endl;
+
+    //cout << pi << endl; */
+}
