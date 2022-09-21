@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int n; // the number of temperatures to analyse
+    cin >> n; cin.ignore();
+    int array [n];
+    int MinIndex = 0;
+    for (int i = 0; i < n; i++) {
+        int t; // a temperature expressed as an integer ranging from -273 to 5526
+        cin >> t; cin.ignore();
+        array [i] = t;
+        int CurrentIndex = i;
+        if (abs(array [MinIndex]) > abs(array [CurrentIndex]) && i != 0) //ищем минемальную по модулю температуру
+            MinIndex = CurrentIndex;
+    }
+    if (array [MinIndex] == 0) // если минимальная температура равна 0, то выводим 0
+    {
+        cout << 0 << endl;
+    }
+    if (array [MinIndex] < 0) //если меньше 0, то ищем такую же по модулю темпу
+    {
+        bool a = true; // это переменная состояния
+    for (int i = MinIndex+1; i < n; i++) 
+    {
+        if (abs(array [MinIndex]) == abs(array [i])) //если нашли две одинаковые по модулю темпы, выводим положительную
+        {
+        cout << array [i] << endl;
+        a = false;
+        break;
+        }
+    }
+    if (a) //если минимальная темпа меньше 0, но в массиве такая же по модулю, но положительная темпа не была найдена, то просто выводим
+    cout << array[MinIndex] << endl;
+    }
+    else if (array [MinIndex] > 0)
+    cout << array[MinIndex] << endl;
+}
