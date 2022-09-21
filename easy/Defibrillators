@@ -1,0 +1,87 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+void OrderOfSemicolon(string defib, short &first, short &second, short &third, short &fourth, short &fifth) // функция записывает порядковый номер каждой ; в строке
+{
+    first = defib.find(";");
+    second = defib.find(";", first + 1);
+    third = defib.find(";", second + 1);
+    fourth = defib.find(";", third + 1);
+    fifth = defib.find(";", fourth + 1);
+}
+
+void CommaToDot (string &defib, short &LON, short &LAT, short &FourthSemicolon, short &FifthSemicolon) // функция меняет запятые в широте и долготе
+{
+    LON = defib.find(",", FourthSemicolon + 1);
+    LAT = defib.find(",", FifthSemicolon + 1);
+
+    defib.replace(LON, 1, ".");
+    defib.replace(LAT, 1, ".");
+}
+
+double DistanceToAdress (double LonA,double LatA,double LonB, double LatB) // функция расчета расстояния между дефибриллятором и жертвой 
+{
+    double x = (LonB - LonA) * cos((LatA + LatB) / 2.0);
+    double y = (LatA - LatB);
+    double d = sqrt(x*x + y*y) * 6371.0;
+    return d;
+}
+
+int main()
+{
+    string lon;
+    cin >> lon; cin.ignore();
+    string lat;
+    cin >> lat; cin.ignore();
+    int n;
+    cin >> n; cin.ignore();
+
+    short CommaLon = lon.find(","); // замена запятой на точку в координатах жертвы
+    short CommaLat = lat.find(",");
+    lon.replace(CommaLon, 1, ".");
+    lat.replace(CommaLat, 1, ".");  //
+    
+    double LonA = stod(lon) / 180.0 * M_PI; // конвертация строки в число и пересчет
+    double LatA = stod(lat) / 180.0 * M_PI;
+
+    double MinDistance= {10000}; // Была проблема с одним из кейсов. На форумах писали что нужно большое число для корректной проверки условия ниже. Подобрал опытным путем
+    string answer;
+
+    for (int i = 0; i < n; i++) {
+
+        string defib;
+        getline(cin, defib);
+
+        short FirstSemicolon{0}, SecondSemicolon{0}, ThirdSemicolon{0}, FourthSemicolon{0}, FifthSemicolon{0}; 
+        OrderOfSemicolon(defib, FirstSemicolon, SecondSemicolon, ThirdSemicolon, FourthSemicolon, FifthSemicolon);
+
+        short CommaLonDefib {0}, CommaLatDefib{0};
+        CommaToDot (defib, CommaLonDefib, CommaLatDefib, FourthSemicolon, FifthSemicolon);
+
+        short count = FifthSemicolon - FourthSemicolon - 1;
+        double LonB = stod(defib.substr(FourthSemicolon + 1, count)) / 180.0 * M_PI;  // конвертируем подстроку из defib в число. Пересчитываем координаты дефибриллятора. 
+        double LatB = stod(defib.substr(FifthSemicolon + 1)) / 180.0 * M_PI;
+
+       if (MinDistance > DistanceToAdress (LonA, LatA, LonB, LatB))   // сравниваем расстояние от жертвы до каждого дефибра. Минимальное записываем в ответ.
+       {
+            MinDistance = DistanceToAdress(LonA, LatA, LonB, LatB);
+            answer = defib.substr(FirstSemicolon + 1, SecondSemicolon - FirstSemicolon - 1);
+       }
+
+    }
+
+    cout << answer << endl;
+
+
+
+    // Write an answer using cout. DON'T FORGET THE "<< endl"
+    // To debug: cerr << "Debug messages..." << endl;
+}
