@@ -70,7 +70,7 @@ int main()
         double LonB = stod(defib.substr(FourthSemicolon + 1, count)) / 180.0 * M_PI;  // конвертируем подстроку из defib в число. Пересчитываем координаты дефибриллятора. 
         double LatB = stod(defib.substr(FifthSemicolon + 1)) / 180.0 * M_PI;
 
-       if (MinDistance > DistanceToAdress (LonA, LatA, LonB, LatB))   // сравниваем расстояние от жертвы до каждого дефибра. Минимальное записываем в ответ.
+       if (MinDistance > DistanceToAdress (LonA, LatA, LonB, LatB))   // сравниваем расстояние от жертвы до каждого дефибра. Минимальное записываем в ответ
        {
             MinDistance = DistanceToAdress(LonA, LatA, LonB, LatB);
             answer = defib.substr(FirstSemicolon + 1, SecondSemicolon - FirstSemicolon - 1);
