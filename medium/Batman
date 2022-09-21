@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+int main()
+{
+    int w; // width of the building.
+    int h; // height of the building.
+    cin >> w >> h; cin.ignore();
+    int n; // maximum number of turns before game over.
+    cin >> n; cin.ignore();
+    int x0;
+    int y0;
+    cin >> x0 >> y0; cin.ignore();
+    int LowX = 0; // наименьшее значение оси Х
+    int LowY = 0; // наименьшее значение оси Y
+    int HightX = w - 1; // наибольшее значение оси Х (ширина здания)
+    int HightY = h - 1; // наибольшее значение оси У (высота здания)
+    // game loop
+    while (1) {
+        string bomb_dir; // направление, которому должен следовать бэтман, для нахождения бомбы
+        cin >> bomb_dir; cin.ignore();
+        if (bomb_dir.size() > 1) {  // если сообщение направления состоит из двух букв (UR, DL и т.д.), то проверить условия в {}
+            
+        // в следущих комментах слова "лево","право","выше","ниже" относятся к дому. Ну типа лево - 0 по Х, вверх - 0 по Y и т.д.
+
+        if (bomb_dir[1] == 'L') HightX = x0 - 1; // если вторая буква указывает налево, то граница зоны поиска по Х примет
+        // значение на единицу левее положения бэтмена по оси Х 
+        else if (bomb_dir[1] == 'R') LowX = x0 + 1; // иначе если направо, то граница зоны поиска по Х примет
+        // значение на единицу правее положения бэтмена по оси Х 
+        if (bomb_dir[0] == 'U') HightY = y0 - 1; // если первая буква указывает вверх, то граница зоны поиска по Y примет
+        // значение на единицу выше положения бэтмена по оси Y
+        else LowY = y0 + 1; // если первая буква указывает вниз, то граница зоны поиска по Y примет
+        // значение на единицу ниже положения бэтмена по оси Y
+
+        }
+
+        else {  // если направление состоит из одной буквы (R, L и т.д.), то проверить условия в {}
+
+        if (bomb_dir[0] == 'L') HightX = x0 - 1;  // думаю тут все очевидно
+        else if (bomb_dir[0] == 'R') LowX = x0 + 1;
+        else if (bomb_dir[0] == 'U') HightY = y0 - 1;
+        else LowY = y0 + 1;
+
+        }
+
+        x0 = (HightX + LowX) / 2; // координаты центра зоны поиска. Мы будем постоянно сужать зону поиска, прыгая в ее центр, пока 
+        y0 = (HightY + LowY) / 2; // бомбу не найдем
+    
+        cout << to_string(x0) + " " + to_string(y0) << endl; // Прыгаем в середину зоны поиска, конвертируя целочисленную
+        // переменную в строку с помощью to_string
+
+    }
+
+}
