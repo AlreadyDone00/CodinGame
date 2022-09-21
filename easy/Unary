@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+void DecToBin ( int &c, char sign, vector <char> &test) // Функция перевода из десятичной системы в двоиччную.
+// Этот способ хорошо подходит для небольших двоичных чисел.
+{
+    int num = static_cast<int>(sign);
+    int pow {64};
+    for (int i = 0; i < pow; pow/=2)
+{
+        if (num >= pow) //num>=pow? Если да, то бит под номером pow равен 1
+        {  
+        test[c] = '1';
+        c++;
+        num = num - pow;
+        }  
+        else //если нет, то бит под номером pow равен 0.
+        { 
+        test[c] = '0';
+        c++;
+        }    
+}
+
+}
+
+int main()
+{
+    string message;
+    getline(cin, message);
+    vector <char> InBinary{0}; // вектор хранит строку в бинарной форме
+    InBinary.resize(size(message)*7);
+    int c{0};
+    for (int i = 0; i < size(message); i++) //цикл для обращения к каждой букве message 
+    {
+    DecToBin(c, message[i], InBinary); // конвертирует букву message из строки в двоичный код
+    }
+    for (int b = 0; b < InBinary.size(); b++) // просматриваем весь массив
+    {
+       if (InBinary[b] == '1') // если b элемент массива равен одному, то выводим 0 0 и просматриваем следующий за ним элемент
+       {
+        cout << "0 0";
+       for (int count = b+1; ; count++)
+        {
+            if (InBinary[count] == '1') // если следующие элементы равны единице, то выводим нолики
+            cout << "0";
+            else // если элемент не равен 1, то присваеваем переменной-счетчику порядковый номер этого элемента и выходим из цикла 
+            {
+            b = count - 1;
+            break;
+            }
+        }
+        if (b != InBinary.size()-1) // если это не последний элемент массива, то ставим пробел между конвертированными 0 и 1
+        cout << " ";
+       }
+       else // проделываем ту же самую логику с нулями
+       {
+        cout << "00 0";
+       for (int count = b+1; ; count++)
+        {
+            if (InBinary[count] == '0')
+            cout << "0";
+            else
+            {
+            b = count - 1;
+            break;
+            }
+        }
+        if (b != InBinary.size()-1)
+        cout << " ";
+       }
+    }
+}
