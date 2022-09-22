@@ -15,7 +15,6 @@ using namespace std;
 
 int main()
 {
-
     // game loop
     while (1) {
         int maxH = 0; //начальные значения высоты и номера горы
