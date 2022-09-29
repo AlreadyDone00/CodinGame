@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+int main()
+{
+    int n; // Number of elements which make up the association table.
+    cin >> n; cin.ignore();
+    int q; // Number Q of file names to be analyzed.
+    map<string, string> MimeT; // создаем контейнер Map
+    cin >> q; cin.ignore();
+    for (int i = 0; i < n; i++) {
+        string ext; // file extension
+        string mt; // MIME type.
+        cin >> ext >> mt; cin.ignore();
+        transform(ext.begin(), ext.end(), ext.begin(), :: tolower); // для единообразия переводим все в нижний регистр
+        MimeT.insert(make_pair(ext, mt)); // заполняем map. Ключ - расширение, MIME type - значение
+    }
+    for (int i = 0; i < q; i++) {
+        string fname;
+         getline(cin, fname); // One file name per line.
+
+         int dot = fname.find_last_of("."); // находим последнюю точку в имени файла
+
+         if (dot >= 0) // если точка найдена, то
+         {
+         string extention = fname.substr(dot+1, fname.size()); //копируем подстроку в extention
+         transform(extention.begin(), extention.end(), extention.begin(), :: tolower); // переводим в нижний регистр
+
+         map <string, string> ::iterator it; 
+         it = MimeT.find(extention); // ищем расширение во входных данных
+         if (it == MimeT.end()) // если НЕ нашли, то UNKNOWN
+         cout << "UNKNOWN" << endl;
+         else // если нашли, то выводим соответствующий этому расширению MIME type
+         cout << it->second << endl;
+         }
+         else // если точка не найдена, то UNKNOWN
+         cout << "UNKNOWN"<< endl;
+    }
+}
